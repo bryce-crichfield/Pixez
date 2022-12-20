@@ -1,6 +1,6 @@
 package org.bpc
 
-import org.bpc.components.{PixezDial, PixezButton}
+import org.bpc.components.{PixezDial}
 
 import java.awt.{Color, Graphics, RenderingHints}
 import scala.swing.*
@@ -13,7 +13,7 @@ class MainFrame extends Frame {
     this.preferredSize = (new Dimension(200, 50))
     contents += new PixezDial(Color.BLUE)
     contents += Swing.HStrut(25)
-    contents += new PixezButton()
+//    contents += new PixezSwitch()
   }
 
 }

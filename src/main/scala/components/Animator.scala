@@ -1,20 +1,22 @@
 package org.bpc
 package components
 
-import components.AnimationState.{Continue, Stop}
-
 import javax.swing.Timer
 import scala.swing.{Component, Swing}
 
-class Animator private (owner: Component, animate: () => AnimationState) {
+trait Animator  {
+  val component: Component
   private val timer = new Timer(1000/45, Swing.ActionListener(_ => {
     animate() match
-      case Stop => ()
-      case Continue => owner.repaint()
+      case Animator.Stop => ()
+      case Animator.Continue => component.repaint()
   })).start()
+
+  def animate(): Animator.State
 }
 object Animator {
-  def apply(owner: Component)(animate:  => AnimationState): Animator = {
-    new Animator(owner, () => animate)
-  }
+  sealed trait State
+  case object Continue extends State
+  case object Stop extends State
 }
+
