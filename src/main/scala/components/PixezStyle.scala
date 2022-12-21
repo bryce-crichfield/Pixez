@@ -7,6 +7,6 @@ class PixezStyle {
   var background = Color.darkGray
   var foreground = Color.gray
   var accent = Color.green
-  var margin = 8
+  var margin = 10
   var weight = 3
 }

@@ -1,8 +1,9 @@
 package org.bpc
-package components
+package components.dial
 
-import math.{V2, clamp, lerp}
 import components.Animator
+import math.{V2, clamp, lerp}
+
 import scala.swing.Component
 
 class PixezDialAnimator(val component: Component) extends Animator {
@@ -13,7 +14,7 @@ class PixezDialAnimator(val component: Component) extends Animator {
     if (angle == targetAngle) Animator.Stop
     else {
       // Otherwise, move towards the target angle
-      angle = lerp(angle, targetAngle, .1f)
+      angle = lerp(angle, targetAngle, 0.2)
       angle = clamp(angle, 0, 1)
       // If we are close, snap to the target, thus causing only
       // one animation frame to be scheduled
