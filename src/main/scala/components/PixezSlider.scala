@@ -10,7 +10,7 @@ import scala.swing.event.MouseWheelMoved
 
 class PixezSlider(color: Color, val orientation: Orientation.Value = Orientation.Horizontal) extends Component {
     private val style = new PixezStyle()
-    val animator = new PixezSliderAnimator(this)
+    private val animator = new OneDimensionalAnimator(this, 0.35f)
     private var handleDiameter = 20
     style.weight = 8
     style.accent = color
@@ -32,7 +32,7 @@ class PixezSlider(color: Color, val orientation: Orientation.Value = Orientation
     private def paintVertical(g: Graphics2D): Unit = {
         val start = V2(size.width / 2, style.margin)
         val end = V2(size.width / 2, size.height - style.margin)
-        val center = V2(size.width / 2, size.height * (1 - animator.current))
+        val center = V2(size.width / 2, size.height * (1 - animator.value))
         val handleTopLeft = {
             val radius = handleDiameter / 2f
             val min = style.margin - (style.weight / 2f)
@@ -62,6 +62,7 @@ class PixezSlider(color: Color, val orientation: Orientation.Value = Orientation
           BasicStroke.CAP_ROUND,
           BasicStroke.JOIN_ROUND
         ))
+        // NOTE: causes bug when slider hits top
         if (handleTopLeft.y.toInt >= style.margin) {
             g.drawLine(
               size.width / 2 + (style.weight / 16).toInt,
@@ -91,7 +92,7 @@ class PixezSlider(color: Color, val orientation: Orientation.Value = Orientation
         val start = V2(style.margin, size.height / 2)
         val end = V2(size.width - style.margin, size.height / 2)
         // Draw the Slider Handle
-        val center = V2(size.width * animator.current, size.height / 2)
+        val center = V2(size.width * animator.value, size.height / 2)
         val handleTopLeft = {
             val radius = handleDiameter / 2f
             val min = style.margin - (style.weight / 2f)
@@ -159,20 +160,3 @@ class PixezSlider(color: Color, val orientation: Orientation.Value = Orientation
 
 }
 
-class PixezSliderAnimator(val component: Component) extends Animator {
-    var (current, target) = (0f, 0f)
-
-    override def animate(): Animator.State = {
-        if (target == current) return Animator.Stop
-        current = lerp(current, target, 0.35f)
-        current = clamp(current, 0, 1)
-        if (abs(current - target) < 0.001f) { current = target }
-        Animator.Continue
-    }
-
-    def nudge(amount: Float): Unit = {
-        target += amount
-        target = clamp(target, 0, 1)
-    }
-
-}

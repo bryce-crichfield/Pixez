@@ -1,7 +1,7 @@
 package org.bpc
 
-import org.bpc.components.dial.PixezDial
-import org.bpc.components.PixezSlider
+import org.bpc.components.{PixezButton, PixezDial, PixezSlider, PixezToggleButton}
+
 import java.awt.{Color, Graphics, RenderingHints}
 import scala.swing.*
 import scala.swing.event.*
@@ -13,12 +13,7 @@ class MainFrame extends Frame {
         this.preferredSize = (new Dimension(800, 200))
         contents += new BoxPanel(Orientation.Vertical) {
             this.opaque = false
-            contents += new BoxPanel(Orientation.NoOrientation) {
-                this.opaque = false
-                this.preferredSize = (new Dimension(50, 100))
-                contents += new PixezDial(Color.BLUE)
-
-            }
+            contents += new PixezDial(Color.BLUE)
             contents += new PixezDial(Color.RED)
             contents += new PixezDial(new Color(0xa0, 0x20, 0xf0))
         }
@@ -34,7 +29,13 @@ class MainFrame extends Frame {
         contents += Swing.HStrut(25)
         contents += new PixezSlider(Color.MAGENTA, Orientation.Vertical)
         contents += Swing.HStrut(25)
-        contents += new PixezSlider(Color.YELLOW, Orientation.Vertical)
+        contents += new BoxPanel(Orientation.Vertical) {
+            this.opaque = false
+            contents += new PixezButton(Color.RED)
+
+            contents += new PixezToggleButton(Color.GREEN)
+            contents += new PixezToggleButton(Color.ORANGE)
+        }
     }
 
 }

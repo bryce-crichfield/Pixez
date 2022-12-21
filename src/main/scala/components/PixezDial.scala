@@ -1,11 +1,10 @@
 package org.bpc
-package components.dial
+package components
 
+import components.{OneDimensionalAnimator, PixezStyle}
 import math.*
 
-import org.bpc.components.PixezStyle
-
-import java.awt.{BasicStroke, Color, GradientPaint, RenderingHints, Shape}
+import java.awt.{Color, Graphics2D, RenderingHints, GradientPaint, BasicStroke}
 import javax.swing.Timer
 import scala.swing.*
 import scala.swing.event.*
@@ -13,7 +12,7 @@ import scala.swing.event.*
 // TODO: Add styling options
 // TODO: Add publisher/reactive integration
 class PixezDial(highlight: Color) extends Component {
-    val animator = new PixezDialAnimator(this)
+    private val animator = new OneDimensionalAnimator(this, .2f)
     val style = new PixezStyle()
     // TODO: Add better way to set the styles
     style.accent = highlight
@@ -47,7 +46,7 @@ class PixezDial(highlight: Color) extends Component {
         g.fillOval(topleft.x.toInt, topleft.y.toInt, diameter, diameter)
         // Draw Arrow
         val line = center +
-            (animator.arrow(-1) * V2((diameter / 2f) - style.weight))
+            (arrow(-1) * V2((diameter / 2f) - style.weight))
         g.setStroke(new BasicStroke(
           style.weight,
           BasicStroke.CAP_ROUND,
@@ -63,7 +62,7 @@ class PixezDial(highlight: Color) extends Component {
           diameter,
           diameter,
           90,
-          ((animator.angle * 360)).toInt
+          ((animator.value * 360)).toInt
         )
         debugBox(g)
         val end = System.nanoTime()
@@ -88,4 +87,8 @@ class PixezDial(highlight: Color) extends Component {
         g.drawRect(0, 0, this.size.width, this.size.height)
     }
 
+
+    private inline def arrow(direction: Float): V2 = {
+        V2.fromAngle(90).invertY.rotate(animator.value * direction * 360)
+    }
 }

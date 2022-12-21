@@ -1,7 +1,10 @@
 package org.bpc
 package components
 
+import org.bpc.math.{clamp, lerp}
+
 import javax.swing.Timer
+import scala.math.abs
 import scala.swing.{Component, Swing}
 
 trait Animator  {
@@ -19,4 +22,6 @@ object Animator {
   case object Continue extends State
   case object Stop extends State
 }
+
+
 

@@ -10,3 +10,4 @@ inline def clamp[A: Ordering](x: A, min: A, max: A): A = {
 inline def lerp(a: Float, b: Float, t: Float): Float = {
   a + (b - a) * t
 }
+
