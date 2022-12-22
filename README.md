@@ -3,6 +3,9 @@
 Pixez Surface is an AWT control surface library that provides 
 a set of simple components for use in other Pixez-based project.
 
+### Current Demonstration
+![](version05.gif)
+
 ### Currently Implemented Components
 - Knobs
 - Sliders
@@ -14,6 +17,3 @@ a set of simple components for use in other Pixez-based project.
 - Counters
 - Rollers
 - Combo Boxes
-
-### Current Demonstration
-![](version05.gif)
