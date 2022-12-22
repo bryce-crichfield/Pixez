@@ -8,46 +8,42 @@ import scala.math.abs
 import scala.swing.*
 import scala.swing.event.*
 
-class PixezButton(highlight: Color) extends Component {
-    val style = new PixezStyle()
-    style.accent = highlight.darker()
-    val animator = new OneDimensionalAnimator(this, .3f)
+class PixezButton() extends PixezComponent {
+    private val animator = new OneDimensionalAnimator(this, .95f)
+    override def paint(graphics: Graphics2D): Unit = {
+        super.paint(graphics)
+        import PixezGeometry.*
+        val topleft = V2(margin, margin + (animator.current * (margin / 2)))
+        val buttonSize = V2(size) - (margin * 2)
 
-    override def paint(g: Graphics2D): Unit = {
-        super.paint(g)
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        val topleft = V2(style.margin, style.margin + (animator.value * (style.margin / 2)))
-        val bottomright = V2(size.width - style.margin, size.height - style.margin + (animator.value * (style.margin / 2)))
-        g.setPaint(new GradientPaint(
-          topleft.x, topleft.y, Color.DARK_GRAY,
-        topleft.x, bottomright.y , Color.BLACK
-        ))
-        g.fillRoundRect(
-            topleft.x.toInt,
-            topleft.y.toInt,
-            (bottomright.x - topleft.x).toInt,
-            (bottomright.y - topleft.y).toInt, 10, 10)
-        val color = if (animator.value > .1) style.accent else Color.BLACK
-        g.setColor(color)
-        g.setStroke(new BasicStroke(style.weight))
-        g.drawRoundRect(
-            topleft.x.toInt,
-            topleft.y.toInt,
-            (bottomright.x - topleft.x).toInt,
-            (bottomright.y - topleft.y).toInt, 10, 10)
-        debugBox(g)
+        val buttonBounds = Rectangle(topleft, buttonSize)
+        val gradient = buttonBounds.leftSide.gradient(Color.DARK_GRAY, Color.BLACK)
+        buttonBounds.fill(gradient, 10, graphics)
+        var color = if (animator.current > .1) accent else Color.BLACK
+        buttonBounds.draw(color, defaultStroke(),10,  graphics)
+        color = if (animator.current > .1) accent else Color.WHITE
+        graphics.setFont(Font("SansSerif", Font.Bold, fontsize)  )
+        val textWidth = graphics.getFontMetrics().stringWidth(text)
+        val textHeight = graphics.getFontMetrics().getHeight()
+        val textPos = V2(buttonBounds.center.x - textWidth / 2, buttonBounds.center.y + textHeight / 2)
+        graphics.setColor(color)
+        graphics.drawString(text, textPos.x, textPos.y)
     }
-    private def debugBox(g: Graphics2D): Unit = {
-        g.setColor(Color.RED)
-        g.setStroke(new BasicStroke(2))
-        g.drawRect(0, 0, this.size.width, this.size.height)
-    }
-
+    
     listenTo(mouse.clicks)
     reactions += {
         case _: MousePressed => animator.nudge(1)
         case _: MouseReleased => animator.nudge(-1)
     }
+}
 
+object PixezButton {
+  def apply(accent: Color, text: String, fontsize: Int = 15): PixezButton = {
+    val button = new PixezButton()
+    button.accent = accent
+    button.text = text
+    button.fontsize = fontsize
+    button
+  }
 }
 

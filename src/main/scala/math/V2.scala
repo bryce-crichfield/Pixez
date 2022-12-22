@@ -1,5 +1,7 @@
 package org.bpc.math
 
+import scala.swing.Dimension
+
 class V2 {
     var (x, y) = (0.0f, 0.0f)
 
@@ -85,6 +87,10 @@ class V2 {
 
     inline def invertX: V2 = V2(-x, y)
     inline def invertY: V2 = V2(x, -y)
+    
+    inline def center: V2 = V2(x / 2, y / 2)
+    inline def min: Float = Math.min(x, y)
+    inline def max: Float = Math.max(x, y)
 
     override def toString: String = { f"V2($x%1.2f, $y%1.2f)" }
 }
@@ -108,6 +114,11 @@ object V2 {
         val radians = Math.toRadians(degree)
         val (cos, sin) = (Math.cos(radians), Math.sin(radians))
         V2(cos.toFloat, sin.toFloat)
+    }
+    
+    
+    inline def apply(dimension: Dimension): V2 = {
+      V2(dimension.width.toFloat, dimension.height.toFloat)
     }
 
 }

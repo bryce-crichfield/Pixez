@@ -6,9 +6,9 @@ import scala.swing.Component
 import org.bpc.components.Animator
 import org.bpc.math.{clamp, lerp}
 
-class OneDimensionalAnimator(val component: Component, speed: Float)
+class OneDimensionalAnimator(val component: PixezComponent, speed: Float)
     extends Animator {
-    private var (current, target) = (0f, 0f)
+    var (current, target) = (0f, 0f)
 
 
 
@@ -26,5 +26,4 @@ class OneDimensionalAnimator(val component: Component, speed: Float)
         target = clamp(target, 0, 1)
     }
 
-    inline def value: Float = current
 }

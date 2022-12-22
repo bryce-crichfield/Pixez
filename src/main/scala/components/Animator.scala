@@ -7,8 +7,8 @@ import javax.swing.Timer
 import scala.math.abs
 import scala.swing.{Component, Swing}
 
-trait Animator  {
-  val component: Component
+trait Animator {
+  val component: PixezComponent
   private val timer = new Timer(1000/45, Swing.ActionListener(_ => {
     animate() match
       case Animator.Stop => ()
