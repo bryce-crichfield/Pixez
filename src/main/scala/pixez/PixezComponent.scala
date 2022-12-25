@@ -1,15 +1,15 @@
 package org.bpc
-package components
+package pixez
 
 import java.awt.{Color, RenderingHints, BasicStroke}
 import scala.swing.*
 
 trait PixezComponent extends Component with Publisher {
+  //TODO: REMOVE ME
+//  this.preferredSize = new Dimension(100, 100)
   var primary = Color.darkGray
   var secondary = Color.gray
   var accent = Color.green
-  var margin = 8
-  var lineweight = 3
   var text = ""
   var fontsize = 12
   override def paint(graphics: Graphics2D): Unit = {
@@ -21,7 +21,7 @@ trait PixezComponent extends Component with Publisher {
     }
     graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
   }
-  inline def defaultStroke(weight: Int = lineweight): BasicStroke = 
+  inline def defaultStroke(weight: Int): BasicStroke =
     new BasicStroke(weight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
 
 }
@@ -29,3 +29,4 @@ object PixezComponent {
   var debug: Boolean = false
 
 }
+

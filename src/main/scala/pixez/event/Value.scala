@@ -1,5 +1,5 @@
 package org.bpc
-package components.event
+package pixez.event
 
 import scala.swing.event.Event
 

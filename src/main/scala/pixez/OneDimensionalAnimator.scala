@@ -1,9 +1,9 @@
 package org.bpc
-package components
+package pixez
 
 import scala.math.abs
 import scala.swing.Component
-import org.bpc.components.Animator
+import org.bpc.pixez.Animator
 import org.bpc.math.{clamp, lerp}
 
 class OneDimensionalAnimator(val component: PixezComponent, speed: Float)

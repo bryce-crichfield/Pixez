@@ -1,5 +1,5 @@
 package org.bpc
-package components
+package pixez
 
 import org.bpc.math.{clamp, lerp}
 
