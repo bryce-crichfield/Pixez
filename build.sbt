@@ -7,5 +7,7 @@ lazy val root = (project in file("."))
     name := "PixezTracker",
     idePackagePrefix := Some("org.bpc"),
     libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout
+    libraryDependencies += "com.miglayout" % "miglayout" % "3.7.4"
 
   )

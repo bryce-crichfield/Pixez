@@ -82,6 +82,12 @@ class V2 {
         val (x1, y1) = (x * cos - y * sin, x * sin + y * cos)
         V2(x1.toFloat, y1.toFloat)
     }
+
+    inline def angle: Float = {
+        Math.toDegrees(Math.atan2(y, x)).toFloat
+      
+    }
+
     inline def length: Float = Math.sqrt(x * x + y * y).toFloat
     inline def normalized: V2 = this / length
 

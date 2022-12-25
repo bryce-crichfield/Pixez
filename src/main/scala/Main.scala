@@ -1,104 +1,95 @@
 package org.bpc
 
-import org.bpc.components.{PixezButton, PixezComponent, PixezDial, PixezHorizontalSlider, PixezVerticalSlider}
-import org.bpc.components.event.Value
+import net.miginfocom.swing.MigLayout
+import org.bpc.pixez.{MigPanel, PixezButton, PixezComponent, PixezDial, PixezHorizontalSlider, TextLine, PixezVerticalSlider, AutoTextLine}
+import org.bpc.pixez.event.Value
+
 import java.awt.{Color, Graphics, RenderingHints}
 import scala.swing.*
 import scala.swing.event.*
-import javax.swing.UIManager
+import javax.swing.{JPanel, UIManager}
+import scala.util.Random
+def FormatAsPercent(value: Float): String = {
+  val percent = Math.round(value * 100).toInt.toString
+  if (percent.length == 1) "  " + percent
+  else if (percent.length == 2) " " + percent
+  else percent
+}
 
-def SimpleLabel(publisher: Publisher): Label = {
-  val label = new Label("0.0")
-  label.preferredSize = (new Dimension(100, 20))
-  label.background = new Color(0x30, 0x30, 0x30)
-  label.foreground = Color.WHITE
-  label.opaque = true
-  label.font = Font("SansSerif", Font.Bold, 18)
-  publisher.reactions += {
-    case Value(value) => label.text = f"${value}%1.2f"
+class LabeledDial(name: String) extends MigPanel (
+  columnConstraints = "[fill, grow]",
+  rowConstraints = "[fill, grow]0[]",
+){
+  this.opaque = false
+  val label = new AutoTextLine(35)
+  label.text = s"$name:   "
+  label.hAlign = TextLine.HorizontalAlignment.Right
+  label.vAlign = TextLine.VerticalAlignment.Center
+  def randColor() = new Color((Random.nextInt * 0xFFFFFF).toInt)
+  val dial = PixezDial(randColor())
+
+  layout(dial) = "grow, wrap"
+  layout(label) = "h :25:"
+  label.listenTo(dial)
+  label.reactions += {
+    case Value(value) =>
+      label.text = s"$name: ${FormatAsPercent(value)}%"
+      label.repaint()
   }
-  label
+
+  this.border = Swing.BeveledBorder(Swing.Raised, Color.black, Color.darkGray)
+}
+
+class LabeledSlider extends MigPanel (
+  columnConstraints = "[fill, grow]",
+  rowConstraints = "[fill, grow]0[]",
+){
+  this.opaque = false
+  val label = new TextLine(16)
+  def randColor() = new Color((Random.nextInt * 0xFFFFFF).toInt)
+  val slider = PixezHorizontalSlider(randColor())
+
+  layout(slider) = "grow, wrap"
+  layout(label) = "h 20!, align center"
+  label.listenTo(slider)
+  label.reactions += {
+    case Value(value) =>
+      label.text = f"$value%1.2f"
+      label.repaint()
+  }
+
+  this.border = Swing.LineBorder(Color.BLACK, 5)
 }
 
 
-class MainFrame extends Frame {
-  contents = new BoxPanel(Orientation.NoOrientation) {
-    this.background = new Color(0x30, 0x30, 0x30)
-    this.preferredSize = (new Dimension(1600, 900))
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.opaque = false
-      contents ++= {
-        val dial = PixezDial(Color.BLUE)
-        Seq(dial, SimpleLabel(dial))
-      }
-      contents ++= {
-        val dial = PixezDial(Color.RED)
-        Seq(dial, SimpleLabel(dial))
-      }
-      contents ++= {
-        val dial = PixezDial(Color.MAGENTA)
-        Seq(dial, SimpleLabel(dial))
-      }
-    }
-    contents += Swing.HStrut(25)
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.opaque = false
-      contents ++= {
-        val slider = PixezHorizontalSlider(Color.ORANGE)
-        Seq(slider, SimpleLabel(slider))
-      }
-      contents ++= {
-        val slider = PixezHorizontalSlider(Color.GREEN)
-        Seq(slider, SimpleLabel(slider))
-      }
-      contents ++= {
-        val slider = PixezHorizontalSlider(Color.CYAN)
-        Seq(slider, SimpleLabel(slider))
-      }
-    }
-    contents += Swing.HStrut(25)
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.opaque = false
-      contents ++= {
-        val slider = PixezVerticalSlider(Color.PINK)
-        Seq(slider, SimpleLabel(slider))
-      }
+class TestPanel extends MigPanel(
+  columnConstraints = "[fill, grow]",
+  rowConstraints = "[grow, fill]"
+) {
+  this.opaque = true
+  this.background = new Color(0x30, 0x30, 0x30)
 
-    }
-    contents += Swing.HStrut(25)
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.opaque = false
-      contents ++= {
-        val slider = PixezVerticalSlider(Color.BLUE)
-        Seq(slider, SimpleLabel(slider))
-      }
-
-    }
-    contents += Swing.HStrut(25)
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.preferredSize = new Dimension(100, 100)
-      this.opaque = false
-      contents += PixezButton(Color.GREEN, "Green", 15)
-      contents += PixezButton(Color.RED, "Red", 15)
-      contents += PixezButton(Color.MAGENTA, "Magenta", 15)
-    }
-    contents += new BoxPanel(Orientation.Vertical) {
-      this.preferredSize = new Dimension(100, 100)
-      this.opaque = false
-      contents += PixezButton(Color.YELLOW, "Yellow", 15)
-      contents += PixezButton(Color.CYAN, "Cyan", 15)
-      contents += PixezButton(Color.ORANGE, "Orange", 15)
-    }
-
-  }
+  Seq.fill(4)(new LabeledDial("Test")).foreach(dial => layout(dial) = "growx")
+  layout(new LabeledDial("Test")) = "growx, wrap"
+  Seq.fill(4)(new LabeledDial("Test")).foreach(dial => layout(dial) = "growx")
+  layout(new LabeledDial("Test")) = "growx, wrap"
+  Seq.fill(4)(new LabeledDial("Test")).foreach(dial => layout(dial) = "growx")
 
 }
+
 
 object Main extends SwingApplication {
+  class Test(panel: Panel) extends MainFrame {
+    this.background = new Color(0x30, 0x30, 0x30)
+    this.title = "Test"
+    this.preferredSize = new Dimension(800, 600)
+
+    contents = panel
+  }
   override def startup(args: Array[String]): Unit = {
 //    PixezComponent.debug = true
 
-    val frame = new MainFrame()
+    val frame = new Test(new TestPanel())
     frame.visible = true
     frame.centerOnScreen()
   }
