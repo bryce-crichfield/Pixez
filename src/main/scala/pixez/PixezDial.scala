@@ -46,7 +46,7 @@ class PixezDial extends PixezComponent with Publisher {
 
 }
 object PixezDial {
-  def apply(accent: Color): PixezDial = {
+  def apply(accent: Color = Color.GREEN): PixezDial = {
     val dial = new PixezDial
     dial.painter.accent = accent
     dial
