@@ -1,10 +1,7 @@
 package org.bpc
 package pixez.animation
 import scala.concurrent.duration.Duration
-trait Easing {
-  def apply(start: Double, end: Double, duration: Duration, elapsed: Duration): Double
-}
-
+type Easing = (Double, Double, Duration, Duration) => Double
 object Easing {
   val Linear: Easing = (start, end, duration, elapsed) => {
     val t = elapsed.toMillis / duration.toMillis.toDouble

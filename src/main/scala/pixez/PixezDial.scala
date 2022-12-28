@@ -9,9 +9,9 @@ import java.awt.{Color, Graphics2D, *}
 import scala.swing.*
 import scala.swing.event.*
 
-class PixezDial extends PixezComponent with Publisher {
+class PixezDial extends PixezComponent with Publisher with Animated {
     private val interpolator = new Interpolator(speed = 0.1)
-    private val animator = new animation.Animator(this, interpolator)
+    this.startAnimator(interpolator)
     val painter = new DialPainter()
     
     override def paint(graphics: Graphics2D): Unit = {
