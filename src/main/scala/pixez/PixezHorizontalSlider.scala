@@ -11,7 +11,7 @@ class PixezHorizontalSlider extends PixezSlider {
   private val painter = new HorizontalSliderPainter()
   override def paint(graphics: Graphics2D): Unit = {
     super.paint(graphics)
-    painter.paintSlider(size, accent, animator.current, graphics)
+    painter.paintSlider(size, accent, interpolator.value.toFloat, graphics)
   }
 
 }

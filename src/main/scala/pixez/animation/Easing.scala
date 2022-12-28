@@ -1,6 +1,6 @@
 package org.bpc
 package pixez.animation
-import java.time.Duration
+import scala.concurrent.duration.Duration
 trait Easing {
   def apply(start: Double, end: Double, duration: Duration, elapsed: Duration): Double
 }

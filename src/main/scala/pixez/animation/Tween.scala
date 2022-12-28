@@ -2,10 +2,11 @@ package org.bpc
 package pixez.animation
 
 import math.clamp
-import java.time.Duration
+import scala.concurrent.duration.Duration
+
 case class Tween(start: Double, end: Double, duration: Duration, easing: Easing) {
-  private var current = start
-  private var elapsed: Duration = Duration.ZERO
+  private [animation] var current = start
+  private var elapsed: Duration = Duration.Zero
 
   def update(delta: Duration): Unit = {
     elapsed = elapsed.plus(delta)
@@ -17,6 +18,9 @@ case class Tween(start: Double, end: Double, duration: Duration, easing: Easing)
       current = clamp(current, start, end)
     }
   }
+
   def value: Double = current
-  def isRunning: Boolean = elapsed.compareTo(duration) <= 0
+
+  def isRunning: Boolean = elapsed <= duration
+  
 }

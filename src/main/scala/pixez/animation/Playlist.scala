@@ -1,17 +1,13 @@
 package org.bpc
 package pixez.animation
-import java.time.Duration
-class Path private() {
+import scala.concurrent.duration.Duration
+class Playlist() extends Motion {
 
   import scala.collection.mutable.ListBuffer
 
   private val tweens = ListBuffer.empty[Tween]
-  private var end = 0d
 
   def +=(tween: Tween): Unit = {
-    if tweens.isEmpty then {
-      end = tween.end
-    }
     tweens += tween
   }
 
@@ -20,7 +16,6 @@ class Path private() {
       tweens.head.update(delta)
       if (!tweens.head.isRunning) {
         tweens.remove(0)
-        tweens.headOption.foreach(tween => end = tween.end)
       }
     }
   }
@@ -28,15 +23,15 @@ class Path private() {
   def isRunning: Boolean = tweens.nonEmpty
 
   def value: Double = {
-    if (tweens.nonEmpty) tweens.head.value
-    else end
+    // TODO; this is not correct
+    if (tweens.nonEmpty) {
+      tweens.head.value
+    } else {
+      0
+    }
   }
-}
 
-object Path {
-  def apply(tweens: Tween*): Path = {
-    val path = new Path
-    tweens.foreach(path += _)
-    path
+  def clear(): Unit = {
+    tweens.clear()
   }
 }

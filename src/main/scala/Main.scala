@@ -46,50 +46,29 @@ class TestPanel extends MigPanel {
 
   Seq.fill(4)(LabeledComponent("text", PixezDial())).foreach(dial => layout(dial) = "growx")
   layout(PixezDial()) = "growx, wrap"
-  Seq.fill(4)(PixezDial()).foreach(dial => layout(dial) = "growx")
+  Seq.fill(4)(PixezHorizontalSlider(Color.RED)).foreach(dial => layout(dial) = "growx")
   layout(PixezDial()) =  "growx, wrap"
-  Seq.fill(4)(new PixezButton()).foreach(dial => layout(dial) = "growx")
+  Seq.fill(4)(PixezButton(Color.RED, "Text")).foreach(dial => layout(dial) = "growx")
 
 }
 
 
-//object Main extends SwingApplication {
-//  class Test(panel: Panel) extends MainFrame {
-//    this.background = new Color(0x30, 0x30, 0x30)
-//    this.title = "Test"
-//    this.preferredSize = new Dimension(400, 400)
-//
-//    contents = panel
-//  }
-//  override def startup(args: Array[String]): Unit = {
-//    PixezComponent.debug = true
-//    val frame = new Test(new TestPanel())
-//    frame.visible = true
-//    frame.centerOnScreen()
-//  }
-//
-//  override def shutdown(): Unit = {
-//    println("Goodbye, World!")
-//  }
-//}
+object Main extends SwingApplication {
+  class Test(panel: Panel) extends MainFrame {
+    this.background = new Color(0x30, 0x30, 0x30)
+    this.title = "Test"
+    this.preferredSize = new Dimension(400, 400)
 
+    contents = panel
+  }
+  override def startup(args: Array[String]): Unit = {
+    PixezComponent.debug = true
+    val frame = new Test(new TestPanel())
+    frame.visible = true
+    frame.centerOnScreen()
+  }
 
-object TweenTest extends App {
-
-  import org.bpc.pixez.animation.*
-  import java.time.Duration
-  val t1 = Tween(0, 1, Duration.ofMillis(1000), Easing.Quadratic.Out)
-  val t2 = Tween(1, 0, Duration.ofMillis(1000), Easing.Linear)
-
-  val path = Path(t1, t2)
-
-  var last = Duration.ofNanos(System.nanoTime())
-  while (path.isRunning) {
-    val now = Duration.ofNanos(System.nanoTime())
-    val delta = now.minus(last)
-    last = now
-    path.update(delta)
-    println(path.value)
-    Thread.sleep(100)
+  override def shutdown(): Unit = {
+    println("Goodbye, World!")
   }
 }
