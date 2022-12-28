@@ -1,12 +1,13 @@
 package org.bpc
 package pixez
 
-import java.awt.{BasicStroke, Color, RenderingHints, GradientPaint}
+import pixez.animation.*
+import pixez.math.V2
+
+import java.awt.{BasicStroke, Color, GradientPaint, RenderingHints}
 import scala.math.abs
 import scala.swing.*
 import scala.swing.event.*
-import pixez.animation.*
-import org.bpc.pixez.math.V2
 
 class PixezButton() extends PixezComponent {
     private val playlist = new Playlist()

@@ -1,12 +1,10 @@
 package org.bpc
 package pixez
 
-import java.awt.{Color, RenderingHints, BasicStroke}
+import java.awt.{BasicStroke, Color, RenderingHints}
 import scala.swing.*
 
 trait PixezComponent extends Component with Publisher {
-  //TODO: REMOVE ME
-//  this.preferredSize = new Dimension(100, 100)
   var primary = Color.darkGray
   var secondary = Color.gray
   var accent = Color.green
@@ -26,17 +24,17 @@ trait PixezComponent extends Component with Publisher {
     super.repaint()
     PixezComponent.repaints += 1
   }
-  
+
   inline def defaultStroke(weight: Int): BasicStroke =
     new BasicStroke(weight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
 
 }
 object PixezComponent {
   private var repaints = 0
-  
+
   var debugBox: Boolean = false
   var trackRepaint: Boolean = false
-  
+
   new javax.swing.Timer(1000, _ => {
     if (trackRepaint) {
       println(s"Repaints Per Second: $repaints")

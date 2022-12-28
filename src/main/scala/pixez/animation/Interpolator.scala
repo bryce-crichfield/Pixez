@@ -1,8 +1,9 @@
 package org.bpc
 package pixez.animation
 import pixez.math.*
-import scala.math.*
+
 import scala.concurrent.duration.Duration
+import scala.math.*
 class Interpolator(speed: Double) extends Motion {
   private var (current, target) = (0f, 0f)
 

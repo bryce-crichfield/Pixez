@@ -1,8 +1,9 @@
 package org.bpc
 package pixez.geometry
 
-import org.bpc.pixez.math.V2
-import java.awt.{Stroke, Graphics2D, Paint}
+import pixez.math.V2
+
+import java.awt.{Graphics2D, Paint, Stroke}
 import scala.swing.Dimension
 
 case class Arc(topleft: V2, size: V2, start: Float, extent: Float) {

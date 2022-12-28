@@ -1,8 +1,8 @@
 package org.bpc
 package pixez.paint
 import pixez.geometry.{Line, Rectangle}
+import pixez.math.V2
 import pixez.{PixezComponent, paint}
-import org.bpc.pixez.math.V2
 
 import java.awt.{Color, Graphics2D}
 import scala.swing.Dimension

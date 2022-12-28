@@ -1,15 +1,14 @@
 package org.bpc
 package pixez
 
-import java.awt.{BasicStroke, Color, GradientPaint, Graphics2D, RenderingHints}
-import scala.swing.{Component, Graphics2D, Orientation, Publisher}
+import pixez.animation.*
+import pixez.event.Value
+import pixez.paint.{HorizontalSliderPainter, SliderPainter, VerticalSliderPainter}
 
-import org.bpc.pixez.animation.*
-import org.bpc.pixez.event.Value
-import org.bpc.pixez.paint.{HorizontalSliderPainter, SliderPainter, VerticalSliderPainter}
-
+import java.awt.*
 import scala.math.abs
 import scala.swing.event.MouseWheelMoved
+import scala.swing.{Component, Graphics2D, Orientation, Publisher}
 
 class PixezSlider (val painter: SliderPainter) extends PixezComponent with Publisher {
     protected val interpolator = new Interpolator(speed = 0.1)

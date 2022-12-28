@@ -1,7 +1,8 @@
 package org.bpc
 package pixez.geometry
 
-import org.bpc.pixez.math.V2
+import pixez.math.V2
+
 import java.awt.*
 
 case class Line(p1: V2, p2: V2) {
