@@ -1,4 +1,5 @@
-package org.bpc.math
+package org.bpc
+package pixez.math
 
 import scala.swing.Dimension
 

@@ -1,16 +1,17 @@
 package org.bpc
 package pixez
 
-import org.bpc.math.{clamp, lerp, V2}
-
 import java.awt.{BasicStroke, Color, RenderingHints, GradientPaint}
 import scala.math.abs
 import scala.swing.*
 import scala.swing.event.*
 import pixez.animation.*
+import org.bpc.pixez.math.V2
+
 class PixezButton() extends PixezComponent {
     private val playlist = new Playlist()
     private val animator = new animation.Animator(this, playlist)
+    // TODO: Refactor me into a painter class
     override def paint(graphics: Graphics2D): Unit = {
         super.paint(graphics)
         import org.bpc.pixez.geometry.*
@@ -37,11 +38,10 @@ class PixezButton() extends PixezComponent {
     listenTo(mouse.clicks)
     reactions += {
       case _: MouseClicked =>
-        println("clicked")
         import scala.concurrent.duration.Duration
         playlist.clear()
-        playlist += Tween(0, 1, durationMillis(100), Easing.Quadratic.In)
-        playlist += Tween(1, 0, durationMillis(100), Easing.Quadratic.Out)
+        playlist += Tween(0, 1, durationMillis(175), Easing.Quadratic.In)
+        playlist += Tween(1, 0, durationMillis(175), Easing.Quadratic.Out)
     }
 }
 

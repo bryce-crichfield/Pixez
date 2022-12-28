@@ -1,8 +1,7 @@
 package org.bpc
 package pixez.geometry
 
-import math.V2
-
+import org.bpc.pixez.math.V2
 import java.awt.{Stroke, Graphics2D, Paint}
 import scala.swing.Dimension
 

@@ -1,8 +1,6 @@
 package org.bpc
 package pixez
 
-import math.V2
-
 import org.bpc.pixez.event.Value
 import org.bpc.pixez.paint.DialPainter
 import org.bpc.pixez.animation.*
@@ -20,9 +18,7 @@ class PixezDial extends PixezComponent with Publisher {
     
     override def paint(graphics: Graphics2D): Unit = {
       super.paint(graphics)
-      val value = interpolator.value.toFloat
-      println(value)
-      painter.paintDial(size, value, graphics)
+      painter.paint(size, interpolator.value, graphics)
     }
 
 

@@ -1,7 +1,7 @@
 package org.bpc
 package pixez.animation
+import pixez.math.*
 
-import math.clamp
 import scala.concurrent.duration.Duration
 
 case class Tween(start: Double, end: Double, duration: Duration, easing: Easing) {

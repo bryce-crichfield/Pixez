@@ -1,8 +1,7 @@
 package org.bpc
 package pixez.geometry
 
-import math.V2
-
+import org.bpc.pixez.math.V2
 import java.awt.{Graphics2D, Paint, Stroke}
 
 case class Rectangle(topleft: V2, size: V2) {

@@ -8,7 +8,7 @@ class Animator(component: Component, motion: Motion) {
   private val chrono = new Chronometer()
   private var oneTimePaint = false
   
-  new Timer(0, _ => {
+  new Timer(33, _ => {
     val delta = chrono.update()
     motion.update(delta)
     if motion.isRunning then

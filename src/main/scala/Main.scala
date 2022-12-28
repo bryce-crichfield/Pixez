@@ -1,7 +1,7 @@
 package org.bpc
 
 import net.miginfocom.swing.MigLayout
-import org.bpc.pixez.{AutoTextLine, PixezButton, PixezComponent, PixezDial, PixezHorizontalSlider, PixezVerticalSlider, TextLine}
+import org.bpc.pixez.{AutoTextLine, PixezButton, PixezComponent, PixezDial, PixezSlider, TextLine}
 import org.bpc.pixez.event.Value
 import org.bpc.pixez.layout.MigPanel
 
@@ -46,7 +46,7 @@ class TestPanel extends MigPanel {
 
   Seq.fill(4)(LabeledComponent("text", PixezDial())).foreach(dial => layout(dial) = "growx")
   layout(PixezDial()) = "growx, wrap"
-  Seq.fill(4)(PixezHorizontalSlider(Color.RED)).foreach(dial => layout(dial) = "growx")
+  Seq.fill(4)(PixezSlider.Vertical(Color.RED)).foreach(dial => layout(dial) = "growx")
   layout(PixezDial()) =  "growx, wrap"
   Seq.fill(4)(PixezButton(Color.RED, "Text")).foreach(dial => layout(dial) = "growx")
 
@@ -62,7 +62,8 @@ object Main extends SwingApplication {
     contents = panel
   }
   override def startup(args: Array[String]): Unit = {
-    PixezComponent.debug = true
+    PixezComponent.debugBox = true
+    PixezComponent.trackRepaint = true
     val frame = new Test(new TestPanel())
     frame.visible = true
     frame.centerOnScreen()

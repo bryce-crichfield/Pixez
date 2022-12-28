@@ -4,8 +4,7 @@ package pixez
 import java.awt.{Color, Font, Graphics2D}
 import scala.swing.Dimension
 import TextLine.{HorizontalAlignment, VerticalAlignment}
-import org.bpc.math.clamp
-
+import pixez.math.clamp
 import java.awt.event.{ComponentAdapter, ComponentEvent}
 import scala.swing.FlowPanel.Alignment
 
