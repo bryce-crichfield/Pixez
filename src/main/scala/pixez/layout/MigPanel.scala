@@ -45,6 +45,8 @@ class MigPanel()
   protected def add(comp: Component, constraints: Constraints): Unit = {
     peer.add(comp.peer, constraints)
   }
+  
+  def remove(comp: Component): Unit = peer.remove(comp.peer)
 }
 
 

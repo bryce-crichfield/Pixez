@@ -10,7 +10,7 @@ import scala.swing.*
 import scala.swing.event.*
 
 class PixezDial extends PixezComponent with Publisher with Animated {
-    private val interpolator = new Interpolator(speed = 0.1)
+    private val interpolator = new Interpolator(speed = 0.25)
     this.startAnimator(interpolator)
     val painter = new DialPainter()
     

@@ -4,7 +4,7 @@ package pixez
 import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.{Font, Graphics2D}
 
-class AutoTextLine(fontSize: Int) extends TextLine(fontSize) {
+class AutoTextLine(fontSize: Int = 12) extends TextLine(fontSize) {
   override def updateFont(graphics: Graphics2D): Unit = {
     // Optimistically set the font to the fontSize
     graphics.setFont(new Font("Arial", Font.PLAIN, fontSize))

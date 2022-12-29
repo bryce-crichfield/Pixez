@@ -3,68 +3,59 @@ package org.bpc
 import net.miginfocom.swing.MigLayout
 import org.bpc.pixez.{AutoTextLine, PixezButton, PixezComponent, PixezDial, PixezSlider, TextLine}
 import org.bpc.pixez.event.Value
-import org.bpc.pixez.layout.MigPanel
+import org.bpc.pixez.layout.{Labeled, MigPanel, TabPanel}
 
 import java.awt.{Color, Graphics, RenderingHints}
 import scala.swing.*
 import scala.swing.event.*
 import javax.swing.{JPanel, UIManager}
 import scala.util.Random
-def FormatAsPercent(value: Float): String = {
-  val percent = Math.round(value * 100).toInt.toString
-  if (percent.length == 1) "  " + percent
-  else if (percent.length == 2) " " + percent
-  else percent
+
+
+class TestTabPanel extends TabPanel {
+
+    this.opaque = true
+    this.background = new Color(0x30, 0x30, 0x30)
+    val panel1 = new OscillatorPanel()
+    val panel2 = new OscillatorPanel()
+    val panel3 = new OscillatorPanel()
+    this.addTab("Osc 1", panel1)
+    this.addTab("Osc 2", panel2)
+    this.addTab("Osc 3", panel3)
 }
 
-class LabeledComponent(name: String, component: PixezComponent) extends MigPanel {
-  columnConstraints = "[fill, grow]"
-  rowConstraints = "[fill, grow]0[]"
-  this.opaque = false
-  val label = new AutoTextLine(35)
-  label.text = s"$name:   0%"
-  label.hAlign = TextLine.HorizontalAlignment.Center
-  label.vAlign = TextLine.VerticalAlignment.Center
-  layout(component) = "grow, wrap"
-  layout(label) = "h :25:"
-  label.listenTo(component)
-  label.reactions += {
-    case Value(value) =>
-      label.text = s"$name: ${FormatAsPercent(value)}%"
-      label.repaint()
-  }
+class OscillatorPanel() extends MigPanel {
+    columnConstraints = "[25%, fill][25%, fill][50%, fill]"
+    rowConstraints = "[grow, fill]"
+    this.opaque = true
+    this.background = new Color(0x30, 0x30, 0x30)
 
-  this.border = Swing.BeveledBorder(Swing.Raised, Color.black, Color.darkGray)
-}
+    layout(PixezButton(Color.orange, "sin")) = "cell 0 0"
+    layout(PixezButton(Color.orange, "saw")) = "cell 0 1"
+    layout(PixezButton(Color.orange, "sqr")) = "cell 0 2"
 
+    layout(PixezButton(Color.orange, "tri")) = "cell 1 0"
+    layout(PixezButton(Color.orange, "pls")) = "cell 1 1"
+    layout(PixezButton(Color.orange, "rnd")) = "cell 1 2"
 
-class TestPanel extends MigPanel {
-  columnConstraints = "[fill, grow]"
-  rowConstraints = "[grow, fill]"
-  this.opaque = true
-  this.background = new Color(0x30, 0x30, 0x30)
-
-  Seq.fill(4)(LabeledComponent("text", PixezDial())).foreach(dial => layout(dial) = "growx")
-  layout(PixezDial()) = "growx, wrap"
-  Seq.fill(4)(PixezSlider.Vertical(Color.RED)).foreach(dial => layout(dial) = "growx")
-  layout(PixezDial()) =  "growx, wrap"
-  Seq.fill(4)(PixezButton(Color.RED, "Text")).foreach(dial => layout(dial) = "growx")
+    layout(new Labeled("amp", PixezDial(Color.RED))) = "cell 2 0"
+    layout(new Labeled("phs", PixezDial(Color.RED))) = "cell 2 1"
+    layout(new Labeled("pan", PixezDial(Color.RED))) = "cell 2 2"
 
 }
-
 
 object Main extends SwingApplication {
   class Test(panel: Panel) extends MainFrame {
+      this.preferredSize = new Dimension(800, 600)
     this.background = new Color(0x30, 0x30, 0x30)
     this.title = "Test"
-    this.preferredSize = new Dimension(400, 400)
 
     contents = panel
   }
   override def startup(args: Array[String]): Unit = {
-    PixezComponent.debugBox = true
+//    PixezComponent.debugBox = true
     PixezComponent.trackRepaint = true
-    val frame = new Test(new TestPanel())
+    val frame = new Test(new TestTabPanel())
     frame.visible = true
     frame.centerOnScreen()
   }

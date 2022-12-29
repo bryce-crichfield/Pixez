@@ -7,16 +7,17 @@ import pixez.math.V2
 class ButtonPainter {
     var lineweight: Int = 5
     var rounding: Int = 10
-    var fontsize: Int = 12
+     var fontsize: Int = 12
+
     var accent: Color = Color.red
      var buttonLightColor: Color = Color.darkGray
      var buttonDarkColor: Color = Color.black
 
     private var buttonBounds: Rectangle = _
-
     def paint(size: Dimension, animationValue: Double, text: String, graphics: Graphics2D): Unit = {
         updatePaintParameters(size, animationValue.toFloat)
         paintButtonBody(graphics)
+        updateFont(text, graphics)
         paintButtonText(text, graphics)
     }
 
@@ -27,6 +28,22 @@ class ButtonPainter {
         buttonBounds = Rectangle(topleft, buttonSize)
     }
 
+    private def updateFont(text: String, graphics: Graphics2D): Unit = {
+        // Optimistically set the font to the fontSize
+        graphics.setFont(Font("Arial", Font.Bold, fontsize))
+        // Constrain the font width and height until the font is small enough
+        // TODO: I don't work completely right, but it's close enough for now
+        inline def condition = {
+            val width = graphics.getFontMetrics.stringWidth(text) > buttonBounds.size.x
+            val height = graphics.getFontMetrics.getHeight() > buttonBounds.size.y
+            width && height
+        }
+        while (condition) {
+            graphics.setFont(Font("Arial", Font.Bold, graphics.getFont.getSize - 1))
+        }
+    }
+
+
     private def paintButtonBody(graphics: Graphics2D): Unit = {
         val gradient = buttonBounds.leftSide.gradient(buttonLightColor, buttonDarkColor)
         buttonBounds.fill(gradient, rounding, graphics)
@@ -35,7 +52,6 @@ class ButtonPainter {
     }
 
     private def paintButtonText(text: String, graphics: Graphics2D): Unit = {
-        graphics.setFont(Font("SansSerif", Font.Bold, fontsize))
         val textWidth = graphics.getFontMetrics.stringWidth(text)
         val textHeight = graphics.getFontMetrics.getHeight
         val textPos = V2(buttonBounds.center.x - textWidth / 2, buttonBounds.center.y + textHeight / 2)

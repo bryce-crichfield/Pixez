@@ -8,6 +8,8 @@ import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.{Color, Font, Graphics2D}
 import scala.swing.Dimension
 import scala.swing.FlowPanel.Alignment
+import scala.swing.event.{MouseClicked}
+import scala.swing.Publisher
 
 
 class TextLine(fontSize: Int) extends PixezComponent {
@@ -48,6 +50,7 @@ class TextLine(fontSize: Int) extends PixezComponent {
     }
     clamp(y, 0, size.height)
   }
+    
 }
 
 object TextLine {

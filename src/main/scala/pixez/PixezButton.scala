@@ -15,7 +15,7 @@ class PixezButton() extends PixezComponent with Animated {
     val painter = new ButtonPainter()
     override def paint(graphics: Graphics2D): Unit = {
         super.paint(graphics)
-        painter.accent = if (playlist.isRunning) Color.GREEN else Color.RED
+        painter.accent = if (playlist.isRunning) this.accent else Color.white
         painter.paint(size, playlist.value, text, graphics)
     }
     
@@ -26,6 +26,7 @@ class PixezButton() extends PixezComponent with Animated {
         playlist.clear()
         playlist += Tween(0, 1, durationMillis(175), Easing.Linear)
         playlist += Tween(1, 0, durationMillis(175), Easing.Linear)
+        publish(ButtonClicked(null))
     }
 }
 
@@ -34,7 +35,7 @@ object PixezButton {
     val button = new PixezButton()
     button.accent = accent
     button.text = text
-    button.fontsize = fontsize
+    button.painter.fontsize = fontsize
     button
   }
 }
